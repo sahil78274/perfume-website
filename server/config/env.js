@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
+const PRODUCTION_FRONTEND_ORIGIN = 'https://scentora-store.onrender.com';
 
 const config = {
   env: process.env.NODE_ENV || 'development',
@@ -37,8 +38,21 @@ const config = {
     adminNotify: process.env.ADMIN_NOTIFY_EMAIL || ''
   },
 
-  cookieSecure: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : isProduction
+  // Production cross-site cookies must always be Secure. COOKIE_SECURE can only opt in during development.
+  cookieSecure: isProduction || process.env.COOKIE_SECURE === 'true'
 };
+
+function configuredOrigins() {
+  return [config.corsOrigin, config.clientUrl]
+    .filter(Boolean)
+    .flatMap((value) => String(value).split(',').map((origin) => origin.trim()).filter(Boolean));
+}
+
+// Production is deliberately pinned to the real storefront origin. Development also permits Vite.
+config.allowedOrigins = isProduction
+  ? [PRODUCTION_FRONTEND_ORIGIN]
+  : [...new Set([...configuredOrigins(), 'http://localhost:5173', 'http://127.0.0.1:5173'])];
+config.productionFrontendOrigin = PRODUCTION_FRONTEND_ORIGIN;
 
 config.cloudinary.configured = Boolean(
   config.cloudinary.cloudName && config.cloudinary.apiKey && config.cloudinary.apiSecret
@@ -62,9 +76,12 @@ function validateConfig() {
     problems.push('JWT_SECRET must be at least 32 characters long');
   }
   if (isProduction) {
-    if (!config.corsOrigin && !config.clientUrl) {
-      // Not fatal (same-origin deployment works without CORS) — README documents this.
-      console.warn('[config] Warning: neither CORS_ORIGIN nor CLIENT_URL is set. Only same-origin requests will be accepted.');
+    const configured = configuredOrigins();
+    if (!configured.includes(PRODUCTION_FRONTEND_ORIGIN)) {
+      console.warn(`[config] Set CORS_ORIGIN and CLIENT_URL to ${PRODUCTION_FRONTEND_ORIGIN}; production CORS is pinned to that storefront origin.`);
+    }
+    if (configured.some((origin) => origin !== PRODUCTION_FRONTEND_ORIGIN)) {
+      console.warn('[config] Ignoring non-storefront CORS origins in production.');
     }
   }
   if (problems.length) {
@@ -77,4 +94,4 @@ function validateConfig() {
   }
 }
 
-module.exports = { config, validateConfig };
+module.exports = { config, validateConfig, PRODUCTION_FRONTEND_ORIGIN };
