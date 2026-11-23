@@ -82,6 +82,26 @@ async function list(req, res, next) {
   }
 }
 
+async function resolveOrderItemImages(items) {
+  const missingProductIds = [...new Set(
+    items.filter((item) => !item.image && item.product).map((item) => String(item.product))
+  )];
+  if (!missingProductIds.length) return items;
+
+  const products = await Product.find({ _id: { $in: missingProductIds } }).select('images').lean();
+  const imageByProduct = new Map(products.map((product) => [
+    String(product._id),
+    product.images?.[0]?.url || ''
+  ]));
+  return items.map((item) => {
+    const plain = typeof item.toObject === 'function' ? item.toObject() : item;
+    return {
+      ...plain,
+      image: plain.image || imageByProduct.get(String(plain.product)) || ''
+    };
+  });
+}
+
 async function detail(req, res, next) {
   try {
     const order = await findOrderByParam(req.params.id);
@@ -92,8 +112,11 @@ async function detail(req, res, next) {
       SupplierDetails.findOne({ order: order._id }),
       Expense.find({ order: order._id }).sort({ expenseDate: -1 })
     ]);
-    const profit = await orderProfit(order, items);
-    res.json({ order: adminOrder(order, items, history, supplier, expenses, profit) });
+    const [itemsWithImages, profit] = await Promise.all([
+      resolveOrderItemImages(items),
+      orderProfit(order, items)
+    ]);
+    res.json({ order: adminOrder(order, itemsWithImages, history, supplier, expenses, profit) });
   } catch (err) {
     next(err);
   }
@@ -153,8 +176,11 @@ async function updateStatus(req, res, next) {
       SupplierDetails.findOne({ order: order._id }),
       Expense.find({ order: order._id }).sort({ expenseDate: -1 })
     ]);
-    const profit = await orderProfit(order, items);
-    res.json({ order: adminOrder(order, items, history, supplier, expenses, profit) });
+    const [itemsWithImages, profit] = await Promise.all([
+      resolveOrderItemImages(items),
+      orderProfit(order, items)
+    ]);
+    res.json({ order: adminOrder(order, itemsWithImages, history, supplier, expenses, profit) });
   } catch (err) {
     next(err);
   }
@@ -305,4 +331,4 @@ async function exportCsv(req, res, next) {
   }
 }
 
-module.exports = { list, detail, updateStatus, updateSupplier, addNote, deleteNote, exportCsv, buildFilter, STOCK_RESTORING };
+module.exports = { list, detail, updateStatus, updateSupplier, addNote, deleteNote, exportCsv, buildFilter, resolveOrderItemImages, STOCK_RESTORING };

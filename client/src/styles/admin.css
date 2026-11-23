@@ -162,3 +162,15 @@
 .admin-root .panel{border:1px solid #ccc;box-shadow:none;break-inside:avoid}
 .admin-root #printArea .order-grid{grid-template-columns:1fr}
 }
+
+.admin-root .admin-order-product{display:flex;align-items:center;gap:10px;min-width:190px}
+.admin-root .admin-order-thumb-link{display:block;flex:0 0 60px;width:60px;height:60px;border:1px solid var(--line);border-radius:5px;background:#fff;overflow:hidden}
+.admin-root .admin-order-thumb{display:block;width:60px;height:60px;object-fit:contain;background:#faf9f6}
+.admin-root .admin-order-product-details{display:flex;flex-direction:column;gap:4px;min-width:0}
+.admin-root .admin-order-product-details strong{font-size:12px;line-height:1.4;overflow-wrap:anywhere}
+.admin-root .admin-order-product-details small{color:var(--muted);font-size:10px}
+@media(max-width:540px){
+  .admin-root .admin-order-product{gap:8px;min-width:165px}
+  .admin-root .admin-order-thumb-link,.admin-root .admin-order-thumb{width:54px;height:54px}
+  .admin-root .admin-order-thumb-link{flex-basis:54px}
+}

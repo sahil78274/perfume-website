@@ -43,6 +43,7 @@ The Express server listens on `PORT` (default `5000`) and serves `client/dist`, 
 | `npm start` | Start the API / production server |
 | `npm run seed` | Idempotently seed catalogue and default store settings |
 | `npm run create-admin` | Create the initial admin account |
+| `npm test` | Run the server-side and catalogue tests |
 
 ## Environment
 

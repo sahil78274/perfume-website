@@ -33,13 +33,12 @@ router.post(
   orderController.create
 );
 
-// Guest order tracking — order ID + verified mobile number required
+// Order tracking — phone number only; response is restricted to customer-safe tracking fields.
 router.post(
   '/track',
   trackLimiter,
   [
-    body('orderNumber').trim().isLength({ min: 6, max: 40 }).withMessage('Enter your order ID.'),
-    body('phone').notEmpty().withMessage('Enter the mobile number used at checkout.')
+    body('phone').isString().trim().isLength({ min: 10, max: 16 }).withMessage('Enter a valid 10-digit Indian mobile number.')
   ],
   handleValidation,
   orderController.track

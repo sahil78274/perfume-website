@@ -161,9 +161,39 @@ export default function OrderDetail() {
                 <table className="data">
                   <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Line total</th><th>Supplier cost (per unit)</th></tr></thead>
                   <tbody>
-                    {(o.items || []).map((i) => (
-                      <tr key={i.id}><td>{i.name}{i.product ? '' : ' '}</td><td>{i.qty}</td><td>{money(i.unitPrice)}</td><td>{money(i.lineTotal)}</td><td className="muted">{i.supplierCost !== null && i.supplierCost !== undefined ? money(i.supplierCost) : '—'}</td></tr>
-                    ))}
+                    {(o.items || []).map((i) => {
+                      const imageUrl = i.image || '/images/product-placeholder.svg';
+                      return (
+                        <tr key={i.id}>
+                          <td>
+                            <div className="admin-order-product">
+                              <a className="admin-order-thumb-link" href={imageUrl} target="_blank" rel="noreferrer" aria-label={`View larger image of ${i.name}`}>
+                                <img
+                                  className="admin-order-thumb"
+                                  src={imageUrl}
+                                  alt={i.name}
+                                  loading="lazy"
+                                  onError={(event) => {
+                                    if (!event.currentTarget.src.endsWith('/images/product-placeholder.svg')) {
+                                      event.currentTarget.src = '/images/product-placeholder.svg';
+                                      event.currentTarget.closest('a').href = '/images/product-placeholder.svg';
+                                    }
+                                  }}
+                                />
+                              </a>
+                              <div className="admin-order-product-details">
+                                <strong>{i.name}</strong>
+                                {(i.selectedVariant || i.variant) && <small>{i.selectedVariant || i.variant}</small>}
+                              </div>
+                            </div>
+                          </td>
+                          <td>{i.qty}</td>
+                          <td>{money(i.unitPrice)}</td>
+                          <td>{money(i.lineTotal)}</td>
+                          <td className="muted">{i.supplierCost !== null && i.supplierCost !== undefined ? money(i.supplierCost) : '—'}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
