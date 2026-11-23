@@ -30,7 +30,7 @@ npm run build
 npm start
 ```
 
-The Express server listens on `PORT` (default `5000`) and serves `client/dist`, including the React SPA fallback. Deploy the server and its dependencies together with the generated `client/dist` folder. Set `NODE_ENV=production`, `MONGODB_URI`, and a strong `JWT_SECRET`. Configure Cloudinary for admin product-photo uploads and SMTP settings for transactional email; both integrations are optional, but their features are skipped/disabled if they are not configured. Same-origin hosting does not require `CORS_ORIGIN` or `CLIENT_URL`.
+The Express server listens on `PORT` (default `5000`) and serves `client/dist`, including the React SPA fallback. Deploy the server and its dependencies together with the generated `client/dist` folder. Set `NODE_ENV=production`, `MONGODB_URI`, a strong `JWT_SECRET`, and set both `CORS_ORIGIN` and `CLIENT_URL` to `https://scentora-store.onrender.com`. The production API allows that exact frontend origin and uses Secure, HttpOnly, SameSite=None cookies for the separate Render frontend/API origins. Configure Cloudinary for admin product-photo uploads and SMTP settings for transactional email; both integrations are optional, but their features are skipped/disabled if they are not configured.
 
 ## Useful commands
 

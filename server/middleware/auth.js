@@ -1,6 +1,7 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const { config } = require('../config/env');
+const { isAllowedOrigin } = require('../utils/origins');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
 
@@ -9,7 +10,7 @@ const ADMIN_COOKIE = 'scentora_admin_token';
 
 const baseCookieOptions = () => ({
   httpOnly: true,
-  sameSite: 'lax',
+  sameSite: config.isProduction ? 'none' : 'lax',
   secure: config.cookieSecure,
   path: '/'
 });
@@ -109,12 +110,7 @@ function originCheck(req, res, next) {
   if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') return next();
   const origin = req.get('Origin');
   if (!origin) return next(); // non-browser clients / same-origin curl
-  const allowed = new Set(
-    [config.corsOrigin, config.clientUrl, `${req.protocol}://${req.get('Host')}`]
-      .filter(Boolean)
-      .flatMap((v) => String(v).split(',').map((s) => s.trim()).filter(Boolean))
-  );
-  if (allowed.has(origin)) return next();
+  if (isAllowedOrigin(origin)) return next();
   return res.status(403).json({ error: 'Cross-origin request rejected.' });
 }
 

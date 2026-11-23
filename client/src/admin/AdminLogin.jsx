@@ -4,7 +4,7 @@ import { useAdminAuth } from '../context/AdminAuthContext';
 import { useToast } from '../context/ToastContext';
 
 export default function AdminLogin() {
-  const { admin, loading, login } = useAdminAuth();
+  const { admin, loading, authError, refresh, login } = useAdminAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,6 +47,7 @@ export default function AdminLogin() {
           <label htmlFor="adminPassword">Password</label>
           <input id="adminPassword" name="password" type="password" required autoComplete="current-password" placeholder="••••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
           {error && <div className="login-error show" role="alert">{error}</div>}
+          {authError && <div className="login-error show" role="status">{authError} <button type="button" className="linkish" onClick={refresh}>Retry verification</button></div>}
           <button type="submit" className="btn btn-gold" disabled={busy} style={{ width: '100%', justifyContent: 'center', marginTop: 16, padding: 12 }}>
             {busy ? 'Signing in…' : 'Sign in securely'}
           </button>

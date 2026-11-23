@@ -2,14 +2,16 @@ import axios from 'axios';
 
 /**
  * Single axios instance for every API call.
- * - baseURL '/api' (Vite proxies this to the Express backend on :5000 in dev;
- *   the production single-service deploy serves both from one origin)
- * - withCredentials: cookies (customer/admin JWTs) ride along automatically
+ * - dev uses the Vite /api proxy; production calls the separate Render API origin
+ * - withCredentials: cross-origin HttpOnly cookies (customer/admin JWTs) ride along automatically
  * - Never stores tokens in JS-readable storage — the server sets httpOnly cookies.
  */
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? 'https://scentora-api.onrender.com/api' : '/api');
+
 const api = axios.create({
-  baseURL: 'https://scentora-api.onrender.com/api',
+  baseURL: API_BASE_URL,
   withCredentials: true,
   timeout: 15000,
   headers: { Accept: 'application/json' }

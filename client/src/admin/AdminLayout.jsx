@@ -14,16 +14,40 @@ const NAV = [
 ];
 
 export default function AdminLayout() {
-  const { admin, loading, logout } = useAdminAuth();
+  const { admin, loading, authError, refresh, logout } = useAdminAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast('Signed out.');
+      navigate('/admin/login', { replace: true });
+    } catch (err) {
+      toast(err.message || 'Could not sign out. Please retry.', 'error');
+    }
+  };
 
   if (loading) {
     return (
       <div className="admin-root">
         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted)' }}>
           Verifying admin session…
+        </div>
+      </div>
+    );
+  }
+  if (!admin && authError) {
+    return (
+      <div className="admin-root">
+        <div className="admin-session-error" role="alert">
+          <h1>Could not verify the admin session</h1>
+          <p>{authError}</p>
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button type="button" className="btn btn-gold" onClick={refresh}>Retry verification</button>
+            <button type="button" className="btn btn-outline" onClick={() => navigate('/admin/login', { replace: true, state: { from: location.pathname } })}>Go to sign in</button>
+          </div>
         </div>
       </div>
     );
@@ -52,7 +76,7 @@ export default function AdminLayout() {
           <div className="side-foot">
             <div className="muted" style={{ fontSize: 9, letterSpacing: 1, textTransform: 'uppercase' }}>Signed in as</div>
             <div className="admin-name">{admin.name}</div>
-            <button type="button" onClick={async () => { await logout(); toast('Signed out.'); navigate('/admin/login', { replace: true }); }}>Log out</button>
+            <button type="button" onClick={handleLogout}>Log out</button>
           </div>
         </aside>
         <main className="main">

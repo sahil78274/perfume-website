@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
 const { config } = require('./config/env');
+const { isAllowedOrigin } = require('./utils/origins');
 const { sanitize } = require('./middleware/sanitize');
 const { originCheck } = require('./middleware/auth');
 const { apiNotFound, errorHandler } = require('./middleware/errors');
@@ -45,23 +46,19 @@ function createApp() {
     })
   );
 
-  /* CORS — same-origin by default; whitelist extra origins from env */
-  const allowedOrigins = new Set(
-    [config.corsOrigin, config.clientUrl]
-      .filter(Boolean)
-      .flatMap((v) => String(v).split(',').map((s) => s.trim()).filter(Boolean))
-  );
-  app.use(
-    cors({
-      origin(origin, callback) {
-        if (!origin || allowedOrigins.has(origin)) return callback(null, true);
-        return callback(null, false);
-      },
-      credentials: true,
-      methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Idempotency-Key']
-    })
-  );
+  /* Credentialed CORS: production is pinned to the SCENTORA storefront origin.
+     The cors middleware answers OPTIONS preflights before API routers run. */
+  const corsOptions = {
+    origin(origin, callback) {
+      if (!origin) return callback(null, true); // non-browser clients
+      return callback(null, isAllowedOrigin(origin));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Idempotency-Key'],
+    optionsSuccessStatus: 204
+  };
+  app.use(cors(corsOptions));
 
   app.use(compression());
   app.use(morgan(config.isProduction ? 'combined' : 'dev', {
