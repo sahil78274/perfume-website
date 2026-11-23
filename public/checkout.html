@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<title>Checkout (COD) — SCENTORA</title>
+<meta name="description" content="Complete your SCENTORA order with Cash on Delivery. Your details stay private; we never store card or banking information.">
+<link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="topbar">Cash on Delivery only · No advance payment · No card details</div>
+<header class="site">
+  <div class="container header-inner">
+    <a class="logo" href="/">SCENT<span>ORA</span></a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="/">Home</a><a href="/shop.html">Shop</a><a href="/track-order.html">Track Order</a><a href="/account.html">Account</a>
+    </nav>
+    <div class="header-actions">
+      <a class="iconbtn" href="/cart.html" aria-label="View cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9.5" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+        <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+      </a>
+      <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="/">Home</a><a href="/shop.html">Shop</a><a href="/track-order.html">Track Order</a><a href="/account.html">Account</a>
+  </div>
+</header>
+
+<main class="container" style="padding-bottom:60px">
+  <nav class="breadcrumb"><a href="/">Home</a> / <a href="/cart.html">Cart</a> / Checkout</nav>
+  <h1 class="serif" style="font-weight:400;font-size:32px;margin:6px 0 4px">Checkout</h1>
+  <p style="color:var(--muted);font-size:12.5px;margin-top:0">Cash on Delivery — you pay the delivery person in cash when your parcel arrives.</p>
+
+  <div id="checkoutEmpty" class="empty-state hidden">
+    <h3>Your cart is empty</h3>
+    <p>Add a fragrance or two before checking out.</p>
+    <a class="btn" href="/shop.html" style="margin-top:10px">Browse the collection</a>
+  </div>
+
+  <form id="checkoutForm" class="checkout-layout hidden" novalidate>
+    <div>
+      <div class="panel">
+        <div class="cod-banner">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#d9b98b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M2 11h20"/></svg>
+          <span><b>CASH ON DELIVERY</b><br>We never ask for card numbers, UPI PINs or banking passwords — not online, not over the phone.</span>
+        </div>
+
+        <div id="savedAddressBlock" class="hidden">
+          <div class="field"><label for="savedAddressSelect">Use a saved address</label>
+            <select id="savedAddressSelect"><option value="">— Choose a saved address —</option></select>
+          </div>
+        </div>
+        <div id="guestLoginHint" class="hidden" style="font-size:11.5px;color:var(--muted);margin:8px 0 0">Tip: <a href="/account.html?next=/checkout.html">create an account</a> or <a href="/account.html?next=/checkout.html">log in</a> to save your address for next time. Guest checkout works too.</div>
+
+        <h2 class="serif" style="font-weight:400;font-size:20px;margin-top:14px">Contact &amp; delivery details</h2>
+        <div class="form-grid">
+          <div class="field full"><label for="custName">Full name <span class="req">*</span></label><input id="custName" name="name" required maxlength="80" autocomplete="name" placeholder="Your full name"><div class="field-error" id="err-name"></div></div>
+          <div class="field"><label for="custPhone">Mobile number <span class="req">*</span></label><input id="custPhone" name="phone" required inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel-national" placeholder="10-digit mobile"><div class="field-error" id="err-phone"></div></div>
+          <div class="field"><label for="custEmail">Email <span style="text-transform:none;color:var(--muted)">(optional — for order updates)</span></label><input id="custEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com"><div class="field-error" id="err-email"></div></div>
+          <div class="field full"><label for="custHouse">House number &amp; street <span class="req">*</span></label><input id="custHouse" name="houseAndStreet" required maxlength="200" placeholder="e.g. 42, Shivaji Marg, Near Hanuman Mandir"><div class="field-error" id="err-houseAndStreet"></div></div>
+          <div class="field full"><label for="custArea">Area / locality <span class="req">*</span></label><input id="custArea" name="area" required maxlength="120" placeholder="e.g. Sector 12, Ashok Vihar"><div class="field-error" id="err-area"></div></div>
+          <div class="field"><label for="custCity">City <span class="req">*</span></label><input id="custCity" name="city" required maxlength="80" placeholder="Panipat"><div class="field-error" id="err-city"></div></div>
+          <div class="field"><label for="custState">State <span class="req">*</span></label>
+            <select id="custState" name="state" required>
+              <option value="">Select state…</option>
+            </select>
+            <div class="field-error" id="err-state"></div>
+          </div>
+          <div class="field"><label for="custPin">PIN code <span class="req">*</span></label><input id="custPin" name="pincode" required inputmode="numeric" pattern="[1-9][0-9]{5}" maxlength="6" placeholder="6-digit PIN"><div class="field-error" id="err-pincode"></div></div>
+          <div class="field"><label for="custLandmark">Landmark <span style="text-transform:none;color:var(--muted)">(optional)</span></label><input id="custLandmark" name="landmark" maxlength="120" placeholder="e.g. Opposite city hospital"></div>
+          <div class="field full"><label for="custNotes">Order notes <span style="text-transform:none;color:var(--muted)">(optional)</span></label><textarea id="custNotes" name="notes" maxlength="500" placeholder="Gift wrap request, delivery instructions…"></textarea><div class="field-error" id="err-notes"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="summary-card" aria-label="Order summary">
+      <div class="panel-title"><h2 class="serif" style="font-weight:400;font-size:20px;margin:0">Order summary</h2><a href="/cart.html" style="font-size:11px">Edit cart</a></div>
+      <div class="order-summary-items" id="summaryItems"></div>
+      <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">₹0</span></div>
+      <div class="summary-row"><span>Shipping</span><span id="sumShipping">FREE</span></div>
+      <div class="summary-row total"><span>Total · COD</span><span id="sumTotal">₹0</span></div>
+      <button type="submit" class="btn btn-gold btn-full" id="placeOrderBtn" style="margin-top:12px">Place COD order</button>
+      <p style="font-size:10.5px;color:var(--muted);margin:10px 0 0">By placing this order you agree to be contacted by phone about delivery. See our <a href="/privacy.html">privacy notice</a>. We never store card or banking details.</p>
+    </aside>
+  </form>
+</main>
+
+<footer class="site">
+  <div class="logo">SCENT<span>ORA</span></div>
+  <div class="footnote">© 2026 SCENTORA. All rights reserved.<br>Cash on Delivery across India. Every order is confirmed by phone before dispatch.</div>
+  <div class="footer-links"><a href="/shop.html">Shop</a><a href="/track-order.html">Track order</a><a href="/privacy.html">Privacy notice</a><a href="/account.html">My account</a></div>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/store.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>
