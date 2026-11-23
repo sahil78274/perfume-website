@@ -24,11 +24,19 @@ export function pillClass(status) {
   const s = String(status || '').toLowerCase();
   if (s === 'delivered') return 'pill pill-delivered';
   if (['cancelled', 'rto', 'returned'].includes(s)) return 'pill pill-cancelled';
-  if (s === 'new order') return 'pill pill-new';
-  if (['confirmed', 'supplier order placed', 'shipped', 'out for delivery'].includes(s)) return 'pill pill-progress';
+  if (['new order', 'pending confirmation'].includes(s)) return 'pill pill-new';
+  if (['confirmed', 'processing', 'supplier order placed', 'shipped', 'out for delivery'].includes(s)) return 'pill pill-progress';
   return 'pill pill-other';
 }
 
-export const ORDER_STEPS = ['New Order', 'Confirmed', 'Supplier Order Placed', 'Shipped', 'Out for Delivery', 'Delivered'];
-
-export const ORDER_STATUSES = [...ORDER_STEPS, 'Cancelled', 'RTO', 'Returned'];
+export const ORDER_STEPS = ['Pending Confirmation', 'Confirmed', 'Processing', 'Shipped', 'Delivered'];
+export const ORDER_STATUSES = [
+  ...ORDER_STEPS,
+  'Cancelled',
+  // Legacy states remain available when managing older orders.
+  'New Order',
+  'Supplier Order Placed',
+  'Out for Delivery',
+  'RTO',
+  'Returned'
+];

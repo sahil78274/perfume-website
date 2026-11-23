@@ -124,7 +124,8 @@ export default function Overview() {
         <>
           <div className="stats-grid">
             <StatCard label="Total orders" value={s.totalOrders} />
-            <StatCard label="New orders" value={s.newOrders} cls="warn" />
+            <StatCard label="Pending confirmation" value={s.pendingConfirmationOrders || 0} cls="warn" />
+            <StatCard label="Legacy new orders" value={s.newOrders} cls="warn" />
             <StatCard label="Confirmed" value={s.confirmedOrders} />
             <StatCard label="At supplier" value={s.supplierPlacedOrders} />
             <StatCard label="Shipped" value={s.shippedOrders} />

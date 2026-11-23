@@ -2,13 +2,17 @@
 const mongoose = require('mongoose');
 
 const ORDER_STATUSES = [
-  'New Order',
+  // Current COD confirmation workflow.
+  'Pending Confirmation',
   'Confirmed',
-  'Supplier Order Placed',
+  'Processing',
   'Shipped',
-  'Out for Delivery',
   'Delivered',
   'Cancelled',
+  // Retained for orders created under the legacy workflow.
+  'New Order',
+  'Supplier Order Placed',
+  'Out for Delivery',
   'RTO',
   'Returned'
 ];
@@ -52,7 +56,7 @@ const orderSchema = new mongoose.Schema(
     total: { type: Number, required: true, min: 0 }, // itemsSubtotal + shippingCharge
     itemsCount: { type: Number, required: true, min: 1 },
 
-    status: { type: String, enum: ORDER_STATUSES, default: 'New Order', index: true },
+    status: { type: String, enum: ORDER_STATUSES, default: 'Pending Confirmation', index: true },
     paymentMethod: { type: String, enum: ['COD'], default: 'COD' },
     notes: { type: String, trim: true, maxlength: 500, default: '' }, // customer-visible order notes
 

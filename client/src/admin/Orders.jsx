@@ -2,9 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { money, fmtDateTime, pillClass, ORDER_STATUSES } from '../utils/format';
+import { useToast } from '../context/ToastContext';
+import { buildWhatsAppOrderUrl, normalizeWhatsAppPhone } from '../utils/whatsapp';
 
 export default function Orders() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [from, setFrom] = useState('');
@@ -69,6 +72,17 @@ export default function Orders() {
     window.location.href = `/api/admin/orders/export.csv?${params.toString()}`;
   };
 
+  const openWhatsApp = (event, order) => {
+    event.stopPropagation();
+    const url = buildWhatsAppOrderUrl(order);
+    if (!url) {
+      toast('This order does not have a valid Indian mobile number.', 'error');
+      return;
+    }
+    // Click-to-Chat opens a prepared draft only. An admin must press Send in WhatsApp.
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <>
       <div className="topbar">
@@ -89,6 +103,7 @@ export default function Orders() {
         <button type="submit" className="btn btn-sm">Apply</button>
         <button type="button" className="btn btn-outline btn-sm" onClick={resetFilters}>Reset</button>
       </form>
+      <p className="admin-orders-whatsapp-note">WhatsApp opens a prefilled draft. The message is sent only when you press Send in WhatsApp.</p>
 
       <div className="table-wrap">
         <table className="data">
@@ -97,17 +112,26 @@ export default function Orders() {
             {state === 'loading' && <tr><td colSpan="7" className="empty">Loading…</td></tr>}
             {state === 'error' && <tr><td colSpan="7" className="empty">{error}</td></tr>}
             {state === 'ready' && orders.length === 0 && <tr><td colSpan="7" className="empty">No orders match those filters.</td></tr>}
-            {state === 'ready' && orders.map((o) => (
-              <tr key={o.id} style={{ cursor: 'pointer' }} onClick={() => navigate(`/admin/orders/${o.orderNumber}`)}>
-                <td><Link to={`/admin/orders/${o.orderNumber}`} onClick={(e) => e.stopPropagation()}>{o.orderNumber}</Link>{o.isGuest ? <><br /><small className="muted">guest</small></> : null}</td>
-                <td>{fmtDateTime(o.createdAt)}</td>
-                <td>{o.name}</td>
-                <td><a href={`tel:${o.phone}`} style={{ color: 'inherit', textDecoration: 'none' }} onClick={(e) => e.stopPropagation()}>{o.phone}</a></td>
-                <td>{o.itemsCount}</td>
-                <td>{money(o.total)}</td>
-                <td><span className={pillClass(o.status)}>{o.status}</span></td>
-              </tr>
-            ))}
+            {state === 'ready' && orders.map((o) => {
+              const waPhone = normalizeWhatsAppPhone(o.phone);
+              const displayPhone = waPhone ? `+${waPhone.slice(0, 2)} ${waPhone.slice(2)}` : o.phone;
+              return (
+                <tr key={o.id} className={o.status === 'Pending Confirmation' ? 'order-pending-confirmation' : ''} style={{ cursor: 'pointer' }} onClick={() => navigate(`/admin/orders/${o.orderNumber}`)}>
+                  <td><Link to={`/admin/orders/${o.orderNumber}`} onClick={(e) => e.stopPropagation()}>{o.orderNumber}</Link>{o.isGuest ? <><br /><small className="muted">guest</small></> : null}</td>
+                  <td>{fmtDateTime(o.createdAt)}</td>
+                  <td>{o.name}</td>
+                  <td>
+                    <div className="admin-order-phone">
+                      <a href={`tel:+${waPhone || o.phone}`} style={{ color: 'inherit', textDecoration: 'none' }} onClick={(e) => e.stopPropagation()}>{displayPhone}</a>
+                      <button type="button" className="btn btn-sm btn-whatsapp" onClick={(e) => openWhatsApp(e, o)}>WhatsApp Customer</button>
+                    </div>
+                  </td>
+                  <td>{o.itemsCount}</td>
+                  <td>{money(o.total)}</td>
+                  <td><span className={pillClass(o.status)}>{o.status}</span></td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

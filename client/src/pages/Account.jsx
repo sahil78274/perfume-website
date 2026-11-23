@@ -8,7 +8,7 @@ import { STATES, PHONE_RE, PINCODE_RE } from '../utils/constants';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PASSWORD_RE = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-const CANCELLABLE = ['New Order', 'Confirmed'];
+const CANCELLABLE = ['Pending Confirmation', 'New Order', 'Confirmed'];
 
 /* ================= Orders tab ================= */
 function OrdersTab() {
