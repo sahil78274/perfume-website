@@ -12,6 +12,8 @@ const dashboardController = require('../controllers/admin/dashboardController');
 const ordersController = require('../controllers/admin/ordersController');
 const customersController = require('../controllers/admin/customersController');
 const settingsController = require('../controllers/admin/settingsController');
+const inventoryController = require('../controllers/admin/inventoryController');
+const suppliersController = require('../controllers/admin/suppliersController');
 const expensesController = require('../controllers/admin/expensesController');
 const productController = require('../controllers/productController');
 const categoryController = require('../controllers/categoryController');
@@ -91,6 +93,10 @@ router.get('/categories', categoryController.adminList);
 router.post('/categories', categoryController.adminCreate);
 router.patch('/categories/:id', [param('id').isMongoId().withMessage('Invalid category id.')], handleValidation, categoryController.adminUpdate);
 router.delete('/categories/:id', [param('id').isMongoId().withMessage('Invalid category id.')], handleValidation, categoryController.adminRemove);
+
+/* Inventory & supplier management */
+router.get('/inventory', inventoryController.list);
+router.get('/suppliers/orders', suppliersController.list);
 
 /* Customers */
 router.get('/customers', customersController.list);
