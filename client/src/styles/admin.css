@@ -1,0 +1,164 @@
+/* SCENTORA Admin — scoped under .admin-root so it can coexist with storefront styles */
+.admin-root{
+  --ink:#171717; --sidebar:#1d1b18; --sidebar-hover:#2a2723; --sidebar-active:#322e28;
+  --gold:#b58b52; --gold-soft:#d9b98b; --paper:#f4f3ef; --card:#fff; --line:#e3e0d8;
+  --muted:#7a756b; --danger:#b3402f; --ok:#1c6e3c; --radius:6px;
+}
+.admin-root *{box-sizing:border-box}
+.admin-root{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:13px}
+.admin-root button,
+.admin-root input,
+.admin-root textarea,
+.admin-root select{font:inherit;color:inherit}
+.admin-root button{cursor:pointer}
+.admin-root .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 700px at 70% -10%, #2b2721, #141210 60%);padding:24px}
+.admin-root .login-card{background:#faf9f6;width:min(100%,400px);border-radius:10px;padding:34px 32px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.admin-root .login-logo{font:700 26px Georgia,serif;letter-spacing:4px;text-align:center}
+.admin-root .login-logo span{color:var(--gold)}
+.admin-root .login-sub{text-align:center;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;margin:6px 0 22px}
+.admin-root .login-card label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin:12px 0 6px;color:#4a463f}
+.admin-root .login-card input{width:100%;padding:12px;border:1px solid #ddd8cd;border-radius:5px;font-size:14px;outline:none}
+.admin-root .login-card input:focus{border-color:var(--gold)}
+.admin-root .login-error{display:none;background:#fdeeee;border:1px solid #ecc9c9;color:var(--danger);padding:10px 12px;border-radius:5px;font-size:12px;margin-top:12px}
+.admin-root .login-error.show{display:block}
+.admin-root .login-note{text-align:center;font-size:10px;color:#a09a8d;margin-top:16px;line-height:1.6}
+.admin-root .app{display:none;min-height:100vh}
+.admin-root .app.visible{display:grid;grid-template-columns:232px 1fr}
+.admin-root .sidebar{background:var(--sidebar);color:#c9c6bf;display:flex;flex-direction:column;padding:18px 0;position:sticky;top:0;height:100vh;overflow:auto}
+.admin-root .side-logo{color:#fff;font:700 20px Georgia,serif;letter-spacing:3px;padding:0 20px 16px;border-bottom:1px solid #2c2924;margin-bottom:10px}
+.admin-root .side-logo span{color:var(--gold-soft)}
+.admin-root .side-logo small{display:block;font:400 8.5px Inter,system-ui;letter-spacing:2px;color:#8f8b83;margin-top:3px}
+.admin-root .side-nav{display:flex;flex-direction:column;gap:2px;padding:6px 10px}
+.admin-root .side-nav a{display:flex;align-items:center;gap:10px;color:#c9c6bf;text-decoration:none;padding:10px 12px;border-radius:5px;font-size:12px;letter-spacing:.4px}
+.admin-root .side-nav a svg{width:17px;height:17px;stroke:#a8a49b;flex:none}
+.admin-root .side-nav a:hover{background:var(--sidebar-hover);color:#fff}
+.admin-root .side-nav a.active{background:var(--sidebar-active);color:var(--gold-soft)}
+.admin-root .side-nav a.active svg{stroke:var(--gold-soft)}
+.admin-root .side-foot{margin-top:auto;padding:14px 18px;border-top:1px solid #2c2924;font-size:11px}
+.admin-root .side-foot .admin-name{color:#fff;font-weight:700}
+.admin-root .side-foot button{margin-top:10px;background:transparent;border:1px solid #3a3733;color:#c9c6bf;padding:8px 12px;border-radius:5px;width:100%;font-size:11px;letter-spacing:.8px}
+.admin-root .side-foot button:hover{border-color:var(--gold);color:var(--gold-soft)}
+.admin-root .main{padding:20px 24px 60px;min-width:0}
+.admin-root .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.admin-root .topbar h1{font:400 24px Georgia,serif;margin:0}
+.admin-root .topbar .crumb{color:var(--muted);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase}
+.admin-root .btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:1px solid var(--ink);padding:10px 16px;border-radius:5px;text-decoration:none;font-size:11.5px;letter-spacing:.8px}
+.admin-root .btn:hover{background:#2c2c2c}
+.admin-root .btn-gold{background:var(--gold);border-color:var(--gold);color:#231a0e}
+.admin-root .btn-gold:hover{background:#9c7440;border-color:#9c7440;color:#fff}
+.admin-root .btn-outline{background:#fff;border-color:#d8d4c9;color:var(--ink)}
+.admin-root .btn-outline:hover{border-color:var(--gold)}
+.admin-root .btn-danger{background:#fff;border-color:#d8b4b4;color:var(--danger)}
+.admin-root .btn-danger:hover{background:#fdeeee}
+.admin-root .btn-sm{padding:7px 12px;font-size:10.5px}
+.admin-root .btn[disabled]{opacity:.5;cursor:not-allowed}
+.admin-root .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.admin-root .panel h2{font:400 16px Georgia,serif;margin:0 0 10px}
+.admin-root .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;margin-bottom:14px}
+.admin-root .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 13px}
+.admin-root .stat small{display:block;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);min-height:22px}
+.admin-root .stat b{font-size:21px;display:block;margin-top:4px}
+.admin-root .stat span{font-size:10px;color:var(--muted)}
+.admin-root .stat.warn b{color:#a35a12}
+.admin-root .stat.ok b{color:var(--ok)}
+.admin-root .stat.bad b{color:var(--danger)}
+.admin-root .stat.money b{font-size:19px}
+.admin-root .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:10px}
+.admin-root .filters .field label,
+.admin-root .field-label{display:block;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.admin-root .filters select,
+.admin-root .filters input,
+.admin-root .filters button{padding:8px 10px;border:1px solid #d8d4c9;border-radius:5px;background:#fff;font-size:12px}
+.admin-root .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.admin-root table.data{width:100%;border-collapse:collapse;font-size:12px}
+.admin-root table.data th{background:#efede7;text-align:left;padding:9px 11px;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#55504a;white-space:nowrap}
+.admin-root table.data td{padding:9px 11px;border-top:1px solid #edeae3;vertical-align:middle}
+.admin-root table.data tr:hover td{background:#fcfbf8}
+.admin-root table.data a{color:#6b4f1d;font-weight:700;text-decoration:none}
+.admin-root .pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;letter-spacing:.7px;text-transform:uppercase;font-weight:700}
+.admin-root .pill-new{background:#fff7e0;color:#8a6d1a}
+.admin-root .pill-progress{background:#eef4ff;color:#2b4a8b}
+.admin-root .pill-delivered{background:#edf7ee;color:#1c6e3c}
+.admin-root .pill-cancelled{background:#fdeeee;color:#a33}
+.admin-root .pill-other{background:#f2f0ea;color:#55504a}
+.admin-root .charts{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:1100px){
+.admin-root .charts{grid-template-columns:1fr}
+}
+.admin-root .chart-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.admin-root .chart-box h2{font:400 14px Georgia,serif;margin:0 0 10px}
+.admin-root .chart-box canvas{max-height:260px}
+.admin-root .order-grid{display:grid;grid-template-columns:1fr 380px;gap:14px;align-items:start}
+@media(max-width:1100px){
+.admin-root .order-grid{grid-template-columns:1fr}
+}
+.admin-root .kv{display:flex;justify-content:space-between;gap:14px;font-size:12px;padding:6px 0;border-bottom:1px solid #f0ede6}
+.admin-root .kv:last-child{border-bottom:0}
+.admin-root .kv span:first-child{color:var(--muted)}
+.admin-root .timeline{list-style:none;padding:0;margin:10px 0}
+.admin-root .timeline li{position:relative;padding:0 0 14px 22px;border-left:2px solid var(--line);margin-left:6px;font-size:12px}
+.admin-root .timeline li:last-child{border-left-color:transparent;padding-bottom:0}
+.admin-root .timeline li::before{content:"";position:absolute;left:-6px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.admin-root .timeline small{color:var(--muted)}
+.admin-root .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){
+.admin-root .two-col{grid-template-columns:1fr}
+}
+.admin-root .field input,
+.admin-root .field select,
+.admin-root .field textarea{width:100%;padding:9px 10px;border:1px solid #d8d4c9;border-radius:5px;font-size:12.5px;outline:none;background:#fff}
+.admin-root .field textarea{min-height:60px;resize:vertical}
+.admin-root .field input:focus,
+.admin-root .field select:focus,
+.admin-root .field textarea:focus{border-color:var(--gold)}
+.admin-root .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.admin-root .prod-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.admin-root .prod-card img{width:100%;height:150px;object-fit:cover;background:#efede7}
+.admin-root .prod-card .body{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1}
+.admin-root .prod-card .body b{font-size:12px;line-height:1.35}
+.admin-root .prod-card .meta{font-size:10px;color:var(--muted)}
+.admin-root .prod-card .price-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:6px;border-top:1px solid #f0ede6}
+.admin-root .stock-low{color:#a35a12;font-weight:700}
+.admin-root .stock-ok{color:var(--ok);font-weight:700}
+.admin-root .stock-out{color:var(--danger);font-weight:700}
+.admin-root .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.admin-root .dot-active{background:var(--ok)}
+.admin-root .dot-inactive{background:#b9b4a8}
+.admin-root .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,14,12,.6);z-index:50;align-items:flex-start;justify-content:center;padding:26px 16px;overflow:auto}
+.admin-root .modal-backdrop.open{display:flex}
+.admin-root .modal{background:#fff;width:min(100%,760px);border-radius:10px;padding:20px;max-height:92vh;overflow:auto}
+.admin-root .modal h2{font:400 19px Georgia,serif;margin:0 0 12px}
+.admin-root .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.admin-root .img-thumb{position:relative;width:86px;height:86px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.admin-root .img-thumb img{width:100%;height:100%;object-fit:cover}
+.admin-root .img-thumb button{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);color:#fff;border:0;border-radius:4px;font-size:10px;padding:2px 6px}
+.admin-root .img-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.admin-root .toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:12px 16px;border-radius:6px;font-size:12.5px;z-index:60;max-width:360px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.admin-root .toast.error{background:#7c2d2d}
+.admin-root .toast.success{background:#1c6e3c}
+.admin-root .empty{padding:34px;text-align:center;color:var(--muted)}
+.admin-root .muted{color:var(--muted)}
+.admin-root .hidden{display:none !important}
+@media(max-width:900px){
+.admin-root .app.visible{grid-template-columns:1fr}
+.admin-root .sidebar{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px 14px;gap:6px}
+.admin-root .side-logo{border:0;padding:0 8px 0 0;margin:0}
+.admin-root .side-nav{flex-direction:row;flex-wrap:wrap;padding:0}
+.admin-root .side-nav a{padding:8px 10px;font-size:11px}
+.admin-root .side-foot{border:0;padding:0;margin:0}
+.admin-root .side-foot button{margin-top:0;width:auto}
+.admin-root .brand-sub{display:none}
+.admin-root .main{padding:14px}
+}
+@media print{
+.admin-root{background:#fff}
+.admin-root .sidebar,
+.admin-root .topbar,
+.admin-root .no-print,
+.admin-root .toast,
+.admin-root .modal-backdrop{display:none !important}
+.admin-root .app.visible{display:block}
+.admin-root .main{padding:0}
+.admin-root .panel{border:1px solid #ccc;box-shadow:none;break-inside:avoid}
+.admin-root #printArea .order-grid{grid-template-columns:1fr}
+}

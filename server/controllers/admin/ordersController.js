@@ -167,13 +167,14 @@ async function updateSupplier(req, res, next) {
     if (!order) return res.status(404).json({ error: 'Order not found.' });
 
     const b = req.body || {};
-    const data = {
-      supplierName: cleanText(b.supplierName, 120),
-      supplierProductRef: cleanText(b.supplierProductRef, 160),
-      supplierOrderId: cleanText(b.supplierOrderId, 120),
-      trackingRef: cleanText(b.trackingRef, 160),
-      fulfilmentNotes: cleanText(b.fulfilmentNotes, 2000)
-    };
+    /* Partial-update semantics: only fields present in the body are written,
+       so a bare { supplierStatus } PATCH never wipes the other details. */
+    const data = {};
+    if (b.supplierName !== undefined) data.supplierName = cleanText(b.supplierName, 120);
+    if (b.supplierProductRef !== undefined) data.supplierProductRef = cleanText(b.supplierProductRef, 160);
+    if (b.supplierOrderId !== undefined) data.supplierOrderId = cleanText(b.supplierOrderId, 120);
+    if (b.trackingRef !== undefined) data.trackingRef = cleanText(b.trackingRef, 160);
+    if (b.fulfilmentNotes !== undefined) data.fulfilmentNotes = cleanText(b.fulfilmentNotes, 2000);
     if (b.supplierPurchaseCost !== undefined && b.supplierPurchaseCost !== null && b.supplierPurchaseCost !== '') {
       const cost = Number(b.supplierPurchaseCost);
       if (!Number.isFinite(cost) || cost < 0 || cost > 100000000) {

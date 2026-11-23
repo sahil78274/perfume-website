@@ -81,50 +81,46 @@ function createApp() {
   app.use('/api/admin', adminRoutes);
   app.use('/api', apiNotFound);
 
-  /* Static: customer storefront */
-  const publicDir = path.join(__dirname, '..', 'public');
-  app.use(
-    express.static(publicDir, {
-      index: 'index.html',
-      setHeaders(res, filePath) {
-        if (/\.(html)$/i.test(filePath)) {
-          res.setHeader('Cache-Control', 'no-cache');
-        } else if (/\.(jpg|jpeg|png|webp|avif|gif|svg|woff2?)$/i.test(filePath)) {
-          res.setHeader('Cache-Control', 'public, max-age=604800');
-        } else {
-          res.setHeader('Cache-Control', 'public, max-age=86400');
+  /* Static: React storefront + admin SPA (built into client/dist) */
+  const clientDist = path.join(__dirname, '..', 'client', 'dist');
+  const fs = require('fs');
+  const hasBuild = fs.existsSync(path.join(clientDist, 'index.html'));
+
+  if (hasBuild) {
+    app.use(
+      express.static(clientDist, {
+        index: false,
+        setHeaders(res, filePath) {
+          if (/\.html$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'no-cache');
+          } else if (/\.(jpg|jpeg|png|webp|avif|gif|svg|woff2?)$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'public, max-age=604800');
+          } else {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+          }
         }
+      })
+    );
+
+    /* SPA fallback — every non-API GET that accepts HTML gets the app shell;
+       the router renders the right page (including the 404 page). */
+    app.get(/^\/(?!api\/).*/, (req, res) => {
+      if (!req.accepts('html')) return res.status(404).json({ error: 'Not found.' });
+      res.setHeader('Cache-Control', 'no-cache');
+      res.sendFile(path.join(clientDist, 'index.html'));
+    });
+  } else {
+    /* No frontend build yet — API-only mode (e.g. fresh clone before `npm run build`). */
+    app.use((req, res) => {
+      if (req.accepts('html')) {
+        res.status(503).send(
+          'SCENTORA API is running, but the frontend has not been built yet. Run `npm run build` (or `npm run dev` for the Vite dev server).'
+        );
+      } else {
+        res.status(404).json({ error: 'Not found.' });
       }
-    })
-  );
-
-  /* Chart.js for the admin dashboard (served from node_modules, not committed) */
-  app.get('/admin/vendor/chart.umd.min.js', (req, res) => {
-    res.setHeader('Cache-Control', 'public, max-age=604800');
-    res.sendFile(path.join(__dirname, '..', 'node_modules', 'chart.js', 'dist', 'chart.umd.min.js'));
-  });
-
-  /* Static: admin panel at /admin */
-  const adminDir = path.join(__dirname, '..', 'admin');
-  app.get('/admin', (req, res) => res.redirect('/admin/'));
-  app.use(
-    '/admin',
-    express.static(adminDir, {
-      index: 'index.html',
-      setHeaders(res, filePath) {
-        res.setHeader('Cache-Control', /\.(html)$/i.test(filePath) ? 'no-cache' : 'public, max-age=86400');
-      }
-    })
-  );
-
-  /* 404 for everything else */
-  app.use((req, res) => {
-    if (req.accepts('html')) {
-      res.status(404).sendFile(path.join(publicDir, '404.html'));
-    } else {
-      res.status(404).json({ error: 'Not found.' });
-    }
-  });
+    });
+  }
 
   app.use(errorHandler);
   return app;
