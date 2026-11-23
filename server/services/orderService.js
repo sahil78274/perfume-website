@@ -152,7 +152,7 @@ async function createOrderWithRetry(args, attempts = 3) {
         shippingCharge,
         total,
         itemsCount,
-        status: 'New Order',
+        status: 'Pending Confirmation',
         paymentMethod: 'COD',
         notes: input.notes || '',
         idempotencyKey,
@@ -174,8 +174,8 @@ async function createOrderWithRetry(args, attempts = 3) {
       );
       await OrderStatusHistory.create({
         order: order._id,
-        status: 'New Order',
-        note: 'Order placed by customer (Cash on Delivery).',
+        status: 'Pending Confirmation',
+        note: 'COD order placed; awaiting manual customer confirmation.',
         changedBy: null,
         changedByName: 'System'
       });

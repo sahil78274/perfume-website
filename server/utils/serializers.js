@@ -59,7 +59,7 @@ function adminProduct(p) {
 function customerOrder(order, items, history) {
   return {
     orderNumber: order.orderNumber,
-    status: order.status,
+    status: order.status || 'New Order',
     paymentMethod: order.paymentMethod,
     contact: { name: order.contact.name, phone: order.contact.phone, email: order.contact.email },
     shippingAddress: order.shippingAddress,
@@ -85,7 +85,7 @@ function customerOrder(order, items, history) {
 function trackingOrder(order, items, history, trackingRef) {
   return {
     orderNumber: order.orderNumber,
-    status: order.status,
+    status: order.status || 'New Order',
     paymentMethod: order.paymentMethod,
     total: order.total,
     createdAt: order.createdAt,
@@ -125,7 +125,7 @@ function adminOrder(order, items, history, supplier, expenses, profit) {
     itemsSubtotal: order.itemsSubtotal,
     shippingCharge: order.shippingCharge,
     total: order.total,
-    status: order.status,
+    status: order.status || 'New Order',
     paymentMethod: order.paymentMethod,
     notes: order.notes,
     adminNotes: (order.adminNotes || []).map((n) => ({ id: String(n._id), text: n.text, adminName: n.adminName, createdAt: n.createdAt })),

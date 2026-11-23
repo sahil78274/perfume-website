@@ -59,6 +59,15 @@ async function list(req, res, next) {
       Order.countDocuments(filter),
       Order.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).lean()
     ]);
+    const orderIds = orders.map((order) => order._id);
+    const orderItems = orderIds.length
+      ? await OrderItem.find({ order: { $in: orderIds } }).select('order name qty').lean()
+      : [];
+    const itemsByOrder = orderItems.reduce((grouped, item) => {
+      const key = String(item.order);
+      (grouped[key] ||= []).push({ name: item.name, qty: item.qty });
+      return grouped;
+    }, {});
     res.json({
       orders: orders.map((o) => ({
         id: String(o._id),
@@ -69,7 +78,8 @@ async function list(req, res, next) {
         email: o.contact.email || '',
         total: o.total,
         itemsCount: o.itemsCount,
-        status: o.status,
+        items: itemsByOrder[String(o._id)] || [],
+        status: o.status || 'New Order',
         paymentMethod: o.paymentMethod,
         createdAt: o.createdAt
       })),

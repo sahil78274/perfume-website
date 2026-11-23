@@ -71,7 +71,7 @@ async function dashboard(req, res, next) {
         { $group: { _id: null, revenue: { $sum: '$total' }, orders: { $sum: 1 } } }
       ]),
       Order.aggregate([
-        { $match: { createdAt, status: { $in: ['New Order', 'Confirmed', 'Supplier Order Placed', 'Shipped', 'Out for Delivery'] } } },
+        { $match: { createdAt, status: { $in: ['Pending Confirmation', 'New Order', 'Confirmed', 'Processing', 'Supplier Order Placed', 'Shipped', 'Out for Delivery'] } } },
         { $group: { _id: null, value: { $sum: '$total' }, orders: { $sum: 1 } } }
       ]),
       Order.find({ createdAt }).select('_id total itemsSubtotal status createdAt').lean(),
@@ -128,6 +128,7 @@ async function dashboard(req, res, next) {
       range: { from: dayKey(start), to: dayKey(end) },
       stats: {
         totalOrders,
+        pendingConfirmationOrders: statusMap['Pending Confirmation'] || 0,
         newOrders: statusMap['New Order'] || 0,
         confirmedOrders: statusMap['Confirmed'] || 0,
         supplierPlacedOrders: statusMap['Supplier Order Placed'] || 0,
@@ -154,7 +155,7 @@ async function dashboard(req, res, next) {
       lowStockProducts: trueLowStock.map((p) => ({ id: String(p._id), name: p.name, slug: p.slug, sku: p.sku, stock: p.stock })),
       recentOrders: recentOrders.map((o) => ({
         orderNumber: o.orderNumber, name: o.contact?.name, phone: o.contact?.phone,
-        total: o.total, status: o.status, isGuest: o.isGuest, createdAt: o.createdAt
+        total: o.total, status: o.status || 'New Order', isGuest: o.isGuest, createdAt: o.createdAt
       }))
     });
   } catch (err) {

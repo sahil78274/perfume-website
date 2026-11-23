@@ -51,7 +51,7 @@ export default function OrderConfirmation() {
           <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
         </div>
         <h1 className="serif" style={{ fontWeight: 400, fontSize: 32, margin: '0 0 6px' }}>Order received!</h1>
-        <p style={{ color: 'var(--muted)', margin: 0 }}>Your COD order has been placed successfully.</p>
+        <p style={{ color: 'var(--muted)', margin: 0 }}>Your COD order has been placed successfully. Keep your Order ID below for reference; it is awaiting manual confirmation.</p>
         <div style={{ marginTop: 12 }}><span className={pillClass(order.status)}>{order.status}</span></div>
       </div>
 

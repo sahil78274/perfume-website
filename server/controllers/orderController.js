@@ -8,7 +8,7 @@ const { placeOrder, restoreStock } = require('../services/orderService');
 const { customerOrder, trackingOrder } = require('../utils/serializers');
 const { normalizePhone, normalizePincode, isValidPhone, isValidPincode, isValidEmail, cleanText, cleanMultiline } = require('../utils/validators');
 
-const CANCELLABLE = ['New Order', 'Confirmed'];
+const CANCELLABLE = ['Pending Confirmation', 'New Order', 'Confirmed'];
 
 async function loadCustomerOrderView(order) {
   const [items, history] = await Promise.all([
@@ -87,7 +87,7 @@ async function create(req, res, next) {
       },
       message: duplicate
         ? 'This order was already placed. We kept your original order — no duplicate was created.'
-        : 'Order placed successfully. Pay cash on delivery.'
+        : 'Order placed successfully. Awaiting manual order confirmation.'
     });
   } catch (err) {
     next(err);
@@ -158,7 +158,7 @@ async function myOrders(req, res, next) {
       const items = await OrderItem.find({ order: order._id }).select('name image qty unitPrice lineTotal');
       out.push({
         orderNumber: order.orderNumber,
-        status: order.status,
+        status: order.status || 'New Order',
         total: order.total,
         itemsCount: order.itemsCount,
         paymentMethod: order.paymentMethod,
