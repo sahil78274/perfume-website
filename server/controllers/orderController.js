@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const { Order, ORDER_STATUSES, TERMINAL_STATUSES, NON_REVENUE_STATUSES } = require('../models/Order');
 const OrderItem = require('../models/OrderItem');
 const OrderStatusHistory = require('../models/OrderStatusHistory');
+const SupplierDetails = require('../models/SupplierDetails');
 const { placeOrder, restoreStock } = require('../services/orderService');
-const { customerOrder } = require('../utils/serializers');
+const { customerOrder, trackingOrder } = require('../utils/serializers');
 const { normalizePhone, normalizePincode, isValidPhone, isValidPincode, isValidEmail, cleanText, cleanMultiline } = require('../utils/validators');
 
 const CANCELLABLE = ['New Order', 'Confirmed'];
@@ -93,20 +94,50 @@ async function create(req, res, next) {
   }
 }
 
-/** POST /api/orders/track — guest order lookup with order number + phone (rate limited). */
+/** POST /api/orders/track — list a customer's orders using their normalized Indian mobile number. */
 async function track(req, res, next) {
   try {
-    const orderNumber = cleanText(req.body.orderNumber, 40).toUpperCase();
-    const phone = normalizePhone(req.body.phone);
-    if (!orderNumber || !isValidPhone(phone)) {
-      return res.status(400).json({ error: 'Enter your order ID and the 10-digit mobile number used at checkout.' });
+    res.set('Cache-Control', 'no-store');
+    const phone = normalizePhone(req.body && req.body.phone);
+    if (!isValidPhone(phone)) {
+      return res.status(400).json({ error: 'Enter a valid 10-digit Indian mobile number.' });
     }
-    const order = await Order.findOne({ orderNumber, 'contact.phone': phone });
-    if (!order) {
-      // Uniform response — do not reveal whether the order number exists
-      return res.status(404).json({ error: 'No order found for that order ID and mobile number.' });
-    }
-    res.json({ order: await loadCustomerOrderView(order) });
+
+    // Checkout stores normalized numbers; exact matching uses the indexed phone field.
+    const orders = await Order.find({ 'contact.phone': phone })
+      .select('orderNumber status paymentMethod total createdAt')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!orders.length) return res.json({ orders: [] });
+
+    const orderIds = orders.map((order) => order._id);
+    const [items, history, suppliers] = await Promise.all([
+      OrderItem.find({ order: { $in: orderIds } }).select('order name image qty').lean(),
+      OrderStatusHistory.find({ order: { $in: orderIds } })
+        .select('order status createdAt')
+        .sort({ createdAt: 1 })
+        .lean(),
+      SupplierDetails.find({ order: { $in: orderIds } }).select('order trackingRef').lean()
+    ]);
+
+    const groupByOrder = (rows) => rows.reduce((groups, row) => {
+      const key = String(row.order);
+      (groups[key] ||= []).push(row);
+      return groups;
+    }, {});
+    const itemsByOrder = groupByOrder(items);
+    const historyByOrder = groupByOrder(history);
+    const trackingByOrder = new Map(suppliers.map((supplier) => [String(supplier.order), supplier.trackingRef]));
+
+    res.json({
+      orders: orders.map((order) => trackingOrder(
+        order,
+        itemsByOrder[String(order._id)] || [],
+        historyByOrder[String(order._id)] || [],
+        trackingByOrder.get(String(order._id)) || ''
+      ))
+    });
   } catch (err) {
     next(err);
   }

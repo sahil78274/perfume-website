@@ -81,6 +81,27 @@ function customerOrder(order, items, history) {
   };
 }
 
+/** Minimal public tracking view — never include delivery details, contact data, notes, or costs. */
+function trackingOrder(order, items, history, trackingRef) {
+  return {
+    orderNumber: order.orderNumber,
+    status: order.status,
+    paymentMethod: order.paymentMethod,
+    total: order.total,
+    createdAt: order.createdAt,
+    items: (items || []).map((item) => ({
+      name: item.name,
+      image: item.image || '',
+      qty: item.qty
+    })),
+    timeline: (history || []).map((entry) => ({
+      status: entry.status,
+      at: entry.createdAt
+    })),
+    trackingInfo: trackingRef ? { reference: trackingRef } : null
+  };
+}
+
 /** Full admin view of an order. */
 function adminOrder(order, items, history, supplier, expenses, profit) {
   return {
@@ -94,7 +115,7 @@ function adminOrder(order, items, history, supplier, expenses, profit) {
       id: String(i._id),
       product: i.product ? String(i.product) : null,
       name: i.name,
-      image: i.image,
+      image: i.image || '',
       qty: i.qty,
       unitPrice: i.unitPrice,
       lineTotal: i.lineTotal,
@@ -129,4 +150,4 @@ function adminOrder(order, items, history, supplier, expenses, profit) {
   };
 }
 
-module.exports = { publicProduct, adminProduct, customerOrder, adminOrder, publicImage };
+module.exports = { publicProduct, adminProduct, customerOrder, trackingOrder, adminOrder, publicImage };

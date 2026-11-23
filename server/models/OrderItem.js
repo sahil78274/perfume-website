@@ -6,7 +6,7 @@ const orderItemSchema = new mongoose.Schema(
     order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: true, index: true },
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', default: null, index: true },
     name: { type: String, required: true, maxlength: 140 }, // snapshot
-    image: { type: String, default: '' }, // snapshot
+    image: { type: String, default: '' }, // order-time product image URL snapshot; do not depend on live product data
     sku: { type: String, default: '', select: false }, // internal — admin only
     qty: { type: Number, required: true, min: 1, max: 99 },
     unitPrice: { type: Number, required: true, min: 0 }, // selling price at purchase time

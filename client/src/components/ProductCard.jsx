@@ -42,7 +42,9 @@ export default function ProductCard({ product }) {
             </>
           ) : null}
         </div>
-        <button type="button" className="btn btn-full" onClick={addToCart}>Add to Cart</button>
+        <button type="button" className="btn btn-full" onClick={addToCart} disabled={product.inStock === false}>
+          {product.inStock === false ? 'Out of stock' : 'Add to Cart'}
+        </button>
       </div>
     </article>
   );

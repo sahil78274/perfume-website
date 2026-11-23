@@ -25,7 +25,7 @@ export default function Privacy() {
       </ul>
 
       <h2 className="serif" style={{ fontWeight: 400, fontSize: 22 }}>Order tracking &amp; security</h2>
-      <p>Guest orders can be looked up only with the order ID <em>and</em> the mobile number used at checkout. Your account, addresses and order history are visible only to you (and to SCENTORA administrators who process orders). Access to customer data inside our team is restricted and logged.</p>
+      <p>Order tracking lets a customer look up orders using the mobile number entered at checkout. The tracking view shows basic order details, status history and an available shipment tracking reference; it does not show delivery addresses, email addresses, supplier costs or internal notes. The mobile number is the only field requested for public order lookup. Access to customer data inside our team is restricted and logged.</p>
 
       <h2 className="serif" style={{ fontWeight: 400, fontSize: 22 }}>Who we share data with</h2>
       <ul>

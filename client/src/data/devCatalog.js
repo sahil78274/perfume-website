@@ -10,7 +10,10 @@
 export const DEV_CATEGORIES = [
   { id: 'dev-cat-gift', name: 'Gift Sets', slug: 'gift-sets', description: 'Curated fragrance gift sets for every occasion.' },
   { id: 'dev-cat-combo', name: 'Combo Packs', slug: 'combo-packs', description: 'Value duos and multi-bottle combo packs.' },
-  { id: 'dev-cat-pocket', name: 'Pocket Perfumes', slug: 'pocket-perfumes', description: 'Travel-friendly mini and pocket sprays.' }
+  { id: 'dev-cat-pocket', name: 'Pocket Perfumes', slug: 'pocket-perfumes', description: 'Travel-friendly mini and pocket sprays.' },
+  { id: 'dev-cat-unisex-gift', name: 'Unisex / Gift Sets', slug: 'unisex-gift-sets', description: 'Unisex fragrance gift sets.' },
+  { id: 'dev-cat-women-gift', name: 'Women / Gift Sets', slug: 'women-gift-sets', description: 'Women’s fragrance gift sets.' },
+  { id: 'dev-cat-unisex-combo', name: 'Unisex / Combo Sets', slug: 'unisex-combo-sets', description: 'Unisex fragrance combo sets.' }
 ];
 
 const img = (name, alt) => ({ url: `/images/products/${name}.jpg`, alt });
@@ -77,6 +80,90 @@ export const DEV_PRODUCTS = [
     ],
     tags: ['brit accent', 'women', 'pocket perfume', 'gift pack', '5 pieces'],
     inStock: true,
+    featured: true
+  },
+  {
+    id: 'dev-bella-vita-unisex-004',
+    slug: 'bella-vita-unisex-gift-set-2x20ml',
+    name: 'Bella Vita Unisex Gift Set',
+    category: DEV_CATEGORIES[3],
+    shortDescription: 'Bella Vita Unisex Perfume Gift Set, 2 × 20 ml.',
+    description: 'Bella Vita Unisex Perfume Gift Set, 2 × 20 ml.',
+    price: 449,
+    compareAtPrice: null,
+    images: [img('bella-vita-unisex-gift-set', 'Bella Vita Unisex Gift Set — 2 × 20 ml')],
+    tags: ['bella vita', 'unisex', 'gift set', '2 x 20 ml'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-bella-vita-women-005',
+    slug: 'bella-vita-luxury-women-perfume-gift-set-2x20ml',
+    name: 'Bella Vita Luxury Women Perfume',
+    category: DEV_CATEGORIES[4],
+    shortDescription: 'Bella Vita Luxury Women Perfume Gift Set, 2 × 20 ml.',
+    description: 'Bella Vita Luxury Women Perfume Gift Set, 2 × 20 ml.',
+    price: 449,
+    compareAtPrice: null,
+    images: [img('bella-vita-luxury-women-gift-set', 'Bella Vita Luxury Women Perfume Gift Set — 2 × 20 ml')],
+    tags: ['bella vita', 'women', 'gift set', '2 x 20 ml'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-quimper-premium-006',
+    slug: 'quimper-premium-perfume-set-20ml',
+    name: 'Quimper Premium Perfume Set',
+    category: DEV_CATEGORIES[3],
+    shortDescription: 'Quimper Premium Perfume Set featuring Saudi Sultan and Arabic Khalifa, 20 ml + 20 ml.',
+    description: 'Quimper Premium Perfume Set featuring Saudi Sultan and Arabic Khalifa, 20 ml + 20 ml.',
+    price: 299,
+    compareAtPrice: null,
+    images: [img('quimper-premium-perfume-set', 'Quimper Premium Perfume Set — Saudi Sultan and Arabic Khalifa, 20 ml + 20 ml')],
+    tags: ['quimper', 'unisex', 'gift set', 'saudi sultan', 'arabic khalifa', '20 ml'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-vibes-perfume-set-007',
+    slug: 'vibes-perfume-gift-set-2x50ml',
+    name: 'Vibes Perfume Gift Set',
+    category: DEV_CATEGORIES[3],
+    shortDescription: 'Vibes Perfume Gift Set, 2 × 50 ml, for men and women.',
+    description: 'Vibes Perfume Gift Set, 2 × 50 ml, for men and women.',
+    price: 299,
+    compareAtPrice: null,
+    images: [img('vibes-perfume-gift-set', 'Vibes Perfume Gift Set — 2 × 50 ml, for men and women')],
+    tags: ['vibes', 'unisex', 'gift set', '2 x 50 ml'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-la-french-city-dreams-008',
+    slug: 'la-french-city-of-dreams-gift-set',
+    name: 'La French City of Dreams Gift Set',
+    category: DEV_CATEGORIES[3],
+    shortDescription: 'La French City of Dreams Perfume Gift Set.',
+    description: 'La French City of Dreams Perfume Gift Set.',
+    price: 449,
+    compareAtPrice: null,
+    images: [img('la-french-city-of-dreams-gift-set', 'La French City of Dreams Gift Set')],
+    tags: ['la french', 'unisex', 'gift set', 'city of dreams'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-brit-accent-fire-ocean-009',
+    slug: 'brit-accent-element-of-fire-depth-of-ocean-combo-100ml',
+    name: 'Brit Accent Perfume Combo',
+    category: DEV_CATEGORIES[5],
+    shortDescription: 'Brit Accent Element of Fire and Depth of Ocean perfume combo, 100 ml as shown in the product image.',
+    description: 'Brit Accent Element of Fire and Depth of Ocean perfume combo, 100 ml as shown in the product image.',
+    price: 299,
+    compareAtPrice: null,
+    images: [img('brit-accent-fire-ocean-combo', 'Brit Accent Element of Fire and Depth of Ocean Perfume Combo — 100 ml')],
+    tags: ['brit accent', 'unisex', 'combo set', 'element of fire', 'depth of ocean', '100 ml'],
+    inStock: false,
     featured: true
   }
 ];

@@ -163,7 +163,8 @@ async function createOrderWithRetry(args, attempts = 3) {
           order: order._id,
           product: l.product._id,
           name: l.product.name,
-          image: (l.product.images && l.product.images[0] && l.product.images[0].url) || '',
+          // Snapshot the product photo with the order item so later catalog edits cannot change order history.
+          image: (l.product.images || []).find((image) => image && image.url)?.url || '',
           sku: l.product.sku || '',
           qty: l.qty,
           unitPrice: l.unitPrice,
