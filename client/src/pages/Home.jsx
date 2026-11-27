@@ -37,7 +37,7 @@ export default function Home() {
           <div className="hero-content">
             <div className="eyebrow">A signature, in every drop</div>
             <h1>Make every<br />moment linger.</h1>
-            <p>Explore curated fragrance gift sets, perfume combos and pocket scents for everyday wear and gifting, delivered with Cash on Delivery across India.</p>
+            <p>Explore curated fragrance gift sets, perfume combos, pocket scents and men’s fashion essentials for everyday wear and gifting, delivered with Cash on Delivery across India.</p>
             <Link className="btn btn-gold" to="/shop">Explore the collection&nbsp;&nbsp;→</Link>
           </div>
         </div>
@@ -61,8 +61,8 @@ export default function Home() {
       <section className="section container">
         <div className="section-head">
           <small>THE COLLECTION</small>
-          <h2>Featured fragrances &amp; gift sets</h2>
-          <p>Handpicked sets from the SCENTORA catalogue. Every order is confirmed by phone before dispatch.</p>
+          <h2>Featured products</h2>
+          <p>Handpicked favourites from the SCENTORA catalogue. Every order is confirmed by phone before dispatch.</p>
         </div>
 
         {state === 'loading' && <div className="state-box">Loading the collection…</div>}

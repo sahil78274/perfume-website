@@ -13,7 +13,8 @@ export const DEV_CATEGORIES = [
   { id: 'dev-cat-pocket', name: 'Pocket Perfumes', slug: 'pocket-perfumes', description: 'Travel-friendly mini and pocket sprays.' },
   { id: 'dev-cat-unisex-gift', name: 'Unisex / Gift Sets', slug: 'unisex-gift-sets', description: 'Unisex fragrance gift sets.' },
   { id: 'dev-cat-women-gift', name: 'Women / Gift Sets', slug: 'women-gift-sets', description: 'Women’s fragrance gift sets.' },
-  { id: 'dev-cat-unisex-combo', name: 'Unisex / Combo Sets', slug: 'unisex-combo-sets', description: 'Unisex fragrance combo sets.' }
+  { id: 'dev-cat-unisex-combo', name: 'Unisex / Combo Sets', slug: 'unisex-combo-sets', description: 'Unisex fragrance combo sets.' },
+  { id: 'dev-cat-mens-fashion', name: "Men's Fashion", slug: 'mens-fashion', description: 'Men’s fashion essentials — trousers, sweatshirts and everyday apparel.' }
 ];
 
 const img = (name, alt) => ({ url: `/images/products/${name}.jpg`, alt });
@@ -163,6 +164,36 @@ export const DEV_PRODUCTS = [
     compareAtPrice: null,
     images: [img('brit-accent-fire-ocean-combo', 'Brit Accent Element of Fire and Depth of Ocean Perfume Combo — 100 ml')],
     tags: ['brit accent', 'unisex', 'combo set', 'element of fire', 'depth of ocean', '100 ml'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-mens-fashion-010',
+    slug: 'mens-white-relaxed-fit-trousers',
+    name: "Men's White Relaxed-Fit Trousers",
+    category: DEV_CATEGORIES[6],
+    subcategory: 'Trousers',
+    shortDescription: 'White relaxed-fit trousers with a clean, minimal and versatile look.',
+    description: 'White relaxed-fit trousers with a clean, minimal and versatile look, suitable for casual and smart-casual outfits.',
+    price: 699,
+    compareAtPrice: null,
+    images: [img('mens-white-relaxed-fit-trousers', "Men's White Relaxed-Fit Trousers")],
+    tags: ['men', 'fashion', 'trousers', 'white'],
+    inStock: false,
+    featured: true
+  },
+  {
+    id: 'dev-mens-fashion-011',
+    slug: 'mens-dark-green-half-zip-sweatshirt',
+    name: "Men's Dark Green Half-Zip Sweatshirt",
+    category: DEV_CATEGORIES[6],
+    subcategory: 'Sweatshirts',
+    shortDescription: 'Dark green half-zip sweatshirt with a high collar and front zipper.',
+    description: 'Dark green half-zip sweatshirt featuring a high collar, front zipper and ribbed cuffs and hem.',
+    price: 499,
+    compareAtPrice: null,
+    images: [img('mens-dark-green-half-zip-sweatshirt', "Men's Dark Green Half-Zip Sweatshirt")],
+    tags: ['men', 'fashion', 'sweatshirt', 'half-zip', 'dark green'],
     inStock: false,
     featured: true
   }

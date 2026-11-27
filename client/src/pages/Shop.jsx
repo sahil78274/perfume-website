@@ -104,14 +104,14 @@ export default function Shop() {
       <nav className="breadcrumb"><Link to="/">Home</Link> / Shop</nav>
       <div className="section-head" style={{ textAlign: 'left', marginBottom: 18, padding: 0 }}>
         <small>THE COLLECTION</small>
-        <h2 style={{ textAlign: 'left' }}>All fragrances</h2>
+        <h2 style={{ textAlign: 'left' }}>All products</h2>
       </div>
 
       <form className="panel" role="search" aria-label="Filter products" onSubmit={applyFilters}>
         <div className="form-grid" style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr' }}>
           <div className="field" style={{ margin: 0 }}>
             <label htmlFor="searchInput">Search</label>
-            <input id="searchInput" type="text" placeholder="Search perfumes, sets…" maxLength={80} autoComplete="off"
+            <input id="searchInput" type="text" placeholder="Search products, sets…" maxLength={80} autoComplete="off"
               value={search} onChange={(e) => applySearchDebounced(e.target.value)} />
           </div>
           <div className="field" style={{ margin: 0 }}>
