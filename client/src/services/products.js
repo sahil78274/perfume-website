@@ -36,12 +36,17 @@ function localQuery(params = {}) {
   if (String(params.featured) === 'true') list = list.filter((p) => p.featured);
   if (params.inStock === 'true') list = list.filter((p) => p.inStock);
 
+  // DEV_PRODUCTS is ordered oldest-first; the API sorts featured/newest by
+  // createdAt desc, so later entries stand in for more recently created ones.
+  const addedOrder = new Map(DEV_PRODUCTS.map((p, i) => [p.id, i]));
+  const newestFirst = (a, b) => (addedOrder.get(b.id) ?? 0) - (addedOrder.get(a.id) ?? 0);
+
   switch (String(params.sort || 'featured')) {
-    case 'newest': break;
+    case 'newest': list.sort(newestFirst); break;
     case 'price-asc': list.sort((a, b) => a.price - b.price); break;
     case 'price-desc': list.sort((a, b) => b.price - a.price); break;
     case 'name': list.sort((a, b) => a.name.localeCompare(b.name)); break;
-    default: list.sort((a, b) => Number(b.featured) - Number(a.featured));
+    default: list.sort((a, b) => (Number(b.featured) - Number(a.featured)) || newestFirst(a, b));
   }
 
   const total = list.length;

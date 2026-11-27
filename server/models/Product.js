@@ -23,6 +23,8 @@ const productSchema = new mongoose.Schema(
     shortDescription: { type: String, trim: true, maxlength: 240, default: '' },
     description: { type: String, trim: true, maxlength: 4000, default: '' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true, index: true },
+    /** Optional second-level label within a category (e.g. "Trousers" under "Men's Fashion"). */
+    subcategory: { type: String, trim: true, maxlength: 60, default: '' },
     price: { type: Number, required: true, min: 0, max: 100000000 },
     compareAtPrice: { type: Number, min: 0, default: null },
     /** ADMIN ONLY — never serialized to public API consumers */

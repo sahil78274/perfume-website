@@ -4,7 +4,7 @@ import { money } from '../utils/format';
 import { useToast } from '../context/ToastContext';
 
 const EMPTY_FORM = {
-  name: '', sku: '', category: '', price: '', compareAtPrice: '', supplierCost: '',
+  name: '', sku: '', category: '', subcategory: '', price: '', compareAtPrice: '', supplierCost: '',
   stock: '', lowStockThreshold: '', status: 'active', featured: false,
   shortDescription: '', description: '', tags: ''
 };
@@ -84,6 +84,7 @@ export default function Products() {
         setEditingId(p.id);
         setForm({
           name: p.name || '', sku: p.sku || '', category: (p.category && p.category.id) || '',
+          subcategory: p.subcategory || '',
           price: p.price ?? '', compareAtPrice: p.compareAtPrice ?? '', supplierCost: p.supplierCost ?? '',
           stock: p.stock ?? '', lowStockThreshold: p.lowStockThreshold ?? '', status: p.status || 'active',
           featured: Boolean(p.featured), shortDescription: p.shortDescription || '', description: p.description || '',
@@ -112,6 +113,7 @@ export default function Products() {
       name: form.name.trim(),
       sku: form.sku.trim().toUpperCase(),
       category: form.category,
+      subcategory: form.subcategory.trim(),
       price: Number(form.price),
       compareAtPrice: form.compareAtPrice === '' ? null : Number(form.compareAtPrice),
       supplierCost: form.supplierCost === '' ? null : Number(form.supplierCost),
@@ -262,6 +264,8 @@ export default function Products() {
                   <option value="">Choose…</option>
                   {categories.map((c) => <option key={c.id} value={c.id}>{c.name}{c.isActive ? '' : ' (inactive)'}</option>)}
                 </select></div>
+              <div className="field"><label className="field-label" htmlFor="pfSubcategory">Subcategory (optional)</label>
+                <input type="text" id="pfSubcategory" maxLength={60} placeholder="e.g. Trousers" value={form.subcategory} onChange={(e) => setForm({ ...form, subcategory: e.target.value })} /></div>
               <div className="field"><label className="field-label" htmlFor="pfPrice">Selling price (₹) *</label>
                 <input type="number" id="pfPrice" required min="0" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} /></div>
               <div className="field"><label className="field-label" htmlFor="pfCompareAt">Compare-at price (₹, optional)</label>

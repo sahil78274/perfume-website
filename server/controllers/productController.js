@@ -144,6 +144,7 @@ function readProductBody(body, partial = false) {
   if (has('shortDescription')) out.shortDescription = cleanText(body.shortDescription, 240);
   if (has('description')) out.description = cleanText(body.description, 4000);
   if (!partial || has('category')) out.category = body.category;
+  if (has('subcategory')) out.subcategory = cleanText(body.subcategory, 60);
   if (!partial || has('price')) out.price = Math.round(Number(body.price) * 100) / 100;
   if (has('compareAtPrice')) out.compareAtPrice = body.compareAtPrice === null || body.compareAtPrice === '' ? null : Math.round(Number(body.compareAtPrice) * 100) / 100;
   if (has('supplierCost')) out.supplierCost = body.supplierCost === null || body.supplierCost === '' ? null : Math.round(Number(body.supplierCost) * 100) / 100;

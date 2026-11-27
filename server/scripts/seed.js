@@ -13,10 +13,11 @@ const CATEGORIES = [
   { name: 'Pocket Perfumes', slug: 'pocket-perfumes', description: 'Travel-friendly mini and pocket sprays.', sortOrder: 3 },
   { name: 'Unisex / Gift Sets', slug: 'unisex-gift-sets', description: 'Unisex fragrance gift sets.', sortOrder: 4 },
   { name: 'Women / Gift Sets', slug: 'women-gift-sets', description: 'Women’s fragrance gift sets.', sortOrder: 5 },
-  { name: 'Unisex / Combo Sets', slug: 'unisex-combo-sets', description: 'Unisex fragrance combo sets.', sortOrder: 6 }
+  { name: 'Unisex / Combo Sets', slug: 'unisex-combo-sets', description: 'Unisex fragrance combo sets.', sortOrder: 6 },
+  { name: "Men's Fashion", slug: 'mens-fashion', description: 'Men’s fashion essentials — trousers, sweatshirts and everyday apparel.', sortOrder: 7 }
 ];
 
-const IMG = (n) => `/images/products/${n}.jpg`;
+const IMG = (n, ext = 'jpg') => `/images/products/${n}.${ext}`;
 
 const PRODUCTS = [
   {
@@ -171,6 +172,40 @@ const PRODUCTS = [
     tags: ['brit accent', 'unisex', 'combo set', 'element of fire', 'depth of ocean', '100 ml'],
     preserveExisting: true,
     images: [{ url: IMG('brit-accent-fire-ocean-combo'), publicId: '', alt: 'Brit Accent Element of Fire and Depth of Ocean Perfume Combo — 100 ml' }]
+  },
+  {
+    name: "Men's White Relaxed-Fit Trousers",
+    slug: 'mens-white-relaxed-fit-trousers',
+    sku: 'SC-MF-009',
+    category: 'mens-fashion',
+    subcategory: 'Trousers',
+    shortDescription: 'White relaxed-fit trousers with a clean, minimal and versatile look.',
+    description: 'White relaxed-fit trousers with a clean, minimal and versatile look, suitable for casual and smart-casual outfits.',
+    price: 699,
+    compareAtPrice: null,
+    supplierCost: null,
+    featured: true,
+    tags: ['men', 'fashion', 'trousers', 'white'],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
+    preserveExisting: true,
+    images: [{ url: IMG('mens-white-relaxed-fit-trousers', 'png'), publicId: '', alt: "Men's White Relaxed-Fit Trousers" }]
+  },
+  {
+    name: "Men's Dark Green Half-Zip Sweatshirt",
+    slug: 'mens-dark-green-half-zip-sweatshirt',
+    sku: 'SC-MF-010',
+    category: 'mens-fashion',
+    subcategory: 'Sweatshirts',
+    shortDescription: 'Dark green half-zip sweatshirt with a high collar and front zipper.',
+    description: 'Dark green half-zip sweatshirt featuring a high collar, front zipper and ribbed cuffs and hem.',
+    price: 499,
+    compareAtPrice: null,
+    supplierCost: null,
+    featured: true,
+    tags: ['men', 'fashion', 'sweatshirt', 'half-zip', 'dark green'],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
+    preserveExisting: true,
+    images: [{ url: IMG('mens-dark-green-half-zip-sweatshirt', 'png'), publicId: '', alt: "Men's Dark Green Half-Zip Sweatshirt" }]
   }
 ];
 
@@ -198,6 +233,7 @@ async function main() {
       shortDescription: p.shortDescription,
       description: p.description,
       category: catBySlug.get(p.category),
+      ...(p.subcategory ? { subcategory: p.subcategory } : {}),
       price: p.price,
       compareAtPrice: p.compareAtPrice,
       ...(p.supplierCost !== null ? { supplierCost: p.supplierCost } : {}),

@@ -92,6 +92,12 @@ export default function Product() {
   const p = product;
   const inStock = p.inStock !== false;
   const save = p.compareAtPrice && p.compareAtPrice > p.price ? p.compareAtPrice - p.price : 0;
+  const specRows = [
+    ...(p.subcategory ? [{ label: 'Subcategory', value: p.subcategory }] : []),
+    ...(Array.isArray(p.specs) && p.specs.length
+      ? p.specs
+      : (p.subcategory ? [] : [{ label: 'Contents', value: 'See product description' }]))
+  ];
   const cartPayload = () => ({
     id: p.id, slug: p.slug, name: p.name, price: p.price,
     image: (p.images && p.images[0] && p.images[0].url) || ''
@@ -157,7 +163,7 @@ export default function Product() {
             <h3>Specifications</h3>
             <table className="specs">
               <tbody>
-                {(Array.isArray(p.specs) && p.specs.length ? p.specs : [{ label: 'Contents', value: 'See product description' }]).map((s) => (
+                {specRows.map((s) => (
                   <tr key={s.label}><td>{s.label}</td><td>{s.value}</td></tr>
                 ))}
               </tbody>
