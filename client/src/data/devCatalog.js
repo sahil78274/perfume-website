@@ -17,7 +17,7 @@ export const DEV_CATEGORIES = [
   { id: 'dev-cat-mens-fashion', name: "Men's Fashion", slug: 'mens-fashion', description: 'Men’s fashion essentials — trousers, sweatshirts and everyday apparel.' }
 ];
 
-const img = (name, alt) => ({ url: `/images/products/${name}.jpg`, alt });
+const img = (name, alt, ext = 'jpg') => ({ url: `/images/products/${name}.${ext}`, alt });
 
 export const DEV_PRODUCTS = [
   {
@@ -177,7 +177,8 @@ export const DEV_PRODUCTS = [
     description: 'White relaxed-fit trousers with a clean, minimal and versatile look, suitable for casual and smart-casual outfits.',
     price: 699,
     compareAtPrice: null,
-    images: [img('mens-white-relaxed-fit-trousers', "Men's White Relaxed-Fit Trousers")],
+    images: [img('mens-white-relaxed-fit-trousers', "Men's White Relaxed-Fit Trousers", 'png')],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
     tags: ['men', 'fashion', 'trousers', 'white'],
     inStock: false,
     featured: true
@@ -192,7 +193,8 @@ export const DEV_PRODUCTS = [
     description: 'Dark green half-zip sweatshirt featuring a high collar, front zipper and ribbed cuffs and hem.',
     price: 499,
     compareAtPrice: null,
-    images: [img('mens-dark-green-half-zip-sweatshirt', "Men's Dark Green Half-Zip Sweatshirt")],
+    images: [img('mens-dark-green-half-zip-sweatshirt', "Men's Dark Green Half-Zip Sweatshirt", 'png')],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
     tags: ['men', 'fashion', 'sweatshirt', 'half-zip', 'dark green'],
     inStock: false,
     featured: true

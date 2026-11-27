@@ -17,7 +17,7 @@ const CATEGORIES = [
   { name: "Men's Fashion", slug: 'mens-fashion', description: 'Men’s fashion essentials — trousers, sweatshirts and everyday apparel.', sortOrder: 7 }
 ];
 
-const IMG = (n) => `/images/products/${n}.jpg`;
+const IMG = (n, ext = 'jpg') => `/images/products/${n}.${ext}`;
 
 const PRODUCTS = [
   {
@@ -186,8 +186,9 @@ const PRODUCTS = [
     supplierCost: null,
     featured: true,
     tags: ['men', 'fashion', 'trousers', 'white'],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
     preserveExisting: true,
-    images: [{ url: IMG('mens-white-relaxed-fit-trousers'), publicId: '', alt: "Men's White Relaxed-Fit Trousers" }]
+    images: [{ url: IMG('mens-white-relaxed-fit-trousers', 'png'), publicId: '', alt: "Men's White Relaxed-Fit Trousers" }]
   },
   {
     name: "Men's Dark Green Half-Zip Sweatshirt",
@@ -202,8 +203,9 @@ const PRODUCTS = [
     supplierCost: null,
     featured: true,
     tags: ['men', 'fashion', 'sweatshirt', 'half-zip', 'dark green'],
+    specs: [{ label: 'Sizes', value: 'S, M, L, XL, XXL' }],
     preserveExisting: true,
-    images: [{ url: IMG('mens-dark-green-half-zip-sweatshirt'), publicId: '', alt: "Men's Dark Green Half-Zip Sweatshirt" }]
+    images: [{ url: IMG('mens-dark-green-half-zip-sweatshirt', 'png'), publicId: '', alt: "Men's Dark Green Half-Zip Sweatshirt" }]
   }
 ];
 
